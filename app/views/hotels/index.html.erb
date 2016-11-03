@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+
+
+<%= form_tag('/hotels/search', :method => "post", id: "search-form") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Hotels", size: "30"  %>
+    <%= submit_tag "Search", id: "search_button" %>
+<% end %>
+
+<br/>
+
+<h2>Hotels</h2>
+<br/>
+
+<% @hotels.each do |hotel| %>
+    <div class="hotel-container">
+      <div class="hotel-name"><h2> <%= link_to "#{hotel.name.capitalize}", hotel %></h2></div>
+      <br/>
+      <div ><h4>Description: </h4><%= hotel.description %></div>
+      <br/>
+      <div><h4>Rating: </h4>
+        <% if (hotel.rating ==0) %>
+            <%= "No Ratings Yet"  %></div>
+            <%else%>
+            <%hotel.rating.times do %>
+            <span><%= image_tag 'rating_1.png' %></span>
+
+                <%end%>
+            <%(5-hotel.rating).times do %>
+                <span><%= image_tag 'rating_0.png' %></span>
+            <%end%>
+            </div>
+            <%end%>
+
+
+    </div>
+
+    <br/>
+<% end %>
+
+<br>
+
+<!--<%= link_to 'New Hotel', new_hotel_path %>-->

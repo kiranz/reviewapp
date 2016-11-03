@@ -1,0 +1,91 @@
+<p id="notice"><%= notice %></p>
+
+<br/>
+<p>
+
+  <h1 style="text-align:center;"><%= @hotel.name.capitalize %></h1>
+  <br/>
+</p>
+
+<p>
+
+  <%= @hotel.description %>
+</p>
+
+<p>
+  <%= "Rating: "%>
+
+  <% if (@hotel.rating == 0) %>
+      <%= "No Ratings Yet"  %>
+  <%else%>
+      <%@hotel.rating.times do %>
+          <span><%= image_tag 'rating_1.png' %></span>
+
+      <%end%>
+      <%(5-@hotel.rating).times do %>
+          <span><%= image_tag 'rating_0.png' %></span>
+      <%end%>
+
+  <%end%>
+</p>
+
+<br/>
+
+<br/>
+
+
+<h2>Reviews</h2>
+
+<% @hotel.comments.each do |comment| %>
+    <p>
+      <strong>Commenter:</strong>
+      <%= comment.commenter %>
+    </p>
+
+    <p>
+      <strong>Comment:</strong>
+      <%= comment.body %>
+    </p>
+
+    <p>
+      <strong>Rating:</strong>
+      <%= comment.rating %>
+    </p>
+
+    <p>
+      <strong>Posted On:</strong>
+      <%= Time.at(comment.created_at).to_date%>
+    </p>
+    <br/>
+<% end %>
+
+<br/>
+<br/>
+
+<h2>Add a review:</h2>
+<%= form_for([@hotel, @hotel.comments.build]) do |f| %>
+    <p>
+      <%= f.label :commenter %><br>
+      <%= f.text_field :commenter %>
+    </p>
+    <p>
+      <%= f.label :review %><br>
+      <%= f.text_area :body %>
+    </p>
+    <%= f.hidden_field :rating, :value => 0 %>
+
+    <%= f.label :rating %>
+    <span id="rating-input">
+      <% [1,2,3,4,5].each do |rating_point| %>
+          <%= image_tag("rating_0.png", :onClick => "changeRatingInputToScore('#{rating_point}')".html_safe) %>
+      <%end%>
+    </span>
+
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>
+
+</br>
+
+<%= link_to 'Back', hotels_path %>

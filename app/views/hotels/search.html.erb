@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<%= form_tag('/hotels/search', :method => "post", id: "search-form") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Hotels", size: "30" %>
+    <%= submit_tag "Search", id: "search_button" %>
+<% end %>
+
+<h1>Hotels</h1>
+<br/>
+
+<% if(@hotels.empty?) %>
+    <p>No Hotels found matching search criteria.</p>
+    <%else%>
+    <div>
+
+
+
+      <% @hotels.each do |hotel| %>
+          <div class="hotel-container">
+            <div class = "hotel-name"><h3> <%= link_to "#{hotel.name.capitalize}", hotel %></h3></div>
+            <br/>
+            <div ><h4>Description: </h4><%= hotel.description %></div>
+            <br/>
+            <!--<div><h4>Rating: </h4> <%= hotel.rating == 0 ? "No Ratings Yet" : hotel.rating %></div>-->
+            <div><h4>Rating: </h4>
+              <% if (hotel.rating ==0) %>
+                  <%= "No Ratings Yet"  %></div>
+              <%else%>
+                  <%hotel.rating.times do %>
+                      <span><%= image_tag 'rating_1.png' %></span>
+
+                  <%end%>
+                  <%(5-hotel.rating).times do %>
+                      <span><%= image_tag 'rating_0.png' %></span>
+                  <%end%>
+                  </div>
+              <%end%>
+              <div><h4> <%= link_to "Add review", "/hotels/#{hotel.id}#new_comment" %></h4></div>
+          </div>
+          <br/>
+      <% end %>
+
+    </div>
+    <%end%>
+
+
+
+<br>
+
+<!--<%= link_to 'New Hotel', new_hotel_path %>-->
